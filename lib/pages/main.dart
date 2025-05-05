@@ -1,8 +1,8 @@
 import 'package:diaryentryapp/cubit/diary_cubit.dart';
+import 'package:diaryentryapp/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../core/theme/app_colors.dart';
 
 void main() async {
@@ -23,6 +23,7 @@ class MainApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: lightTheme(),
       darkTheme: darkTheme(),
+      home: HomePage(),
     );
   }
 }
