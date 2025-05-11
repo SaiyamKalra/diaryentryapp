@@ -5,18 +5,33 @@ import 'package:diaryentryapp/cubit/diary_cubit.dart';
 import 'package:diaryentryapp/models/diary.dart';
 import './add_diary_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-          padding: const EdgeInsets.all(95.0),
-          child: Text(
-            'D I A R Y  E N T R Y  A P P',
-            style: TextStyle(color: Colors.white, fontSize: 14),
+          padding: const EdgeInsets.all(100.0),
+          child: Center(
+            child: Text(
+              'D I A R Y  E N T R Y  A P P',
+              style: TextStyle(color: Colors.white, fontSize: 14),
+            ),
           ),
         ),
       ),
@@ -51,7 +66,7 @@ class HomePage extends StatelessWidget {
               },
             ),
             Positioned(
-              bottom: 80,
+              bottom: 150,
               right: 30,
               child: FloatingActionButton(
                 onPressed: () {
@@ -63,6 +78,32 @@ class HomePage extends StatelessWidget {
                 },
                 child: Text('+', style: TextStyle(fontSize: 25)),
               ),
+            ),
+            BottomNavigationBar(
+              onTap: _onItemTapped,
+              currentIndex: _selectedIndex,
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: const Color.fromARGB(28, 41, 4, 206),
+              selectedItemColor: Colors.orange,
+              unselectedItemColor: Colors.white,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home, color: Colors.white),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.search, color: Colors.white),
+                  label: 'Search',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.mood, color: Colors.white),
+                  label: 'Happy Mood',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.mood_bad, color: Colors.white),
+                  label: 'Sad Mood',
+                ),
+              ],
             ),
           ],
         ),
