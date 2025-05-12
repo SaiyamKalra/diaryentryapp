@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:diaryentryapp/models/diary.dart';
 import './add_diary_page.dart';
 import 'package:diaryentryapp/utils/diary_card.dart';
+import './search_page.dart';
+import './happy_mood_page.dart';
+import './sad_mood_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,6 +22,64 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  Widget _getSelectedPage() {
+    switch (_selectedIndex) {
+      case 0:
+        return _buildHomePage();
+      case 1:
+        return SearchPage();
+      case 2:
+        return HappyMoodPage();
+      case 3:
+        return SadMoodPage();
+      default:
+        return _buildHomePage();
+    }
+  }
+
+  Widget _buildHomePage() {
+    return BlocBuilder<DiaryCubit, List<Diary>>(
+      builder: (context, diaries) {
+        if (diaries.isEmpty) {
+          return Center(
+            child: Text(
+              'Tell us about your Day!',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+          );
+        }
+        return ListView.builder(
+          padding: EdgeInsets.only(bottom: 100), // Space for FAB
+          itemCount: diaries.length,
+          itemBuilder: (context, index) {
+            final diary = diaries[index];
+            return Dismissible(
+              key: Key(diary.title),
+              direction: DismissDirection.horizontal,
+              background: Container(
+                height: 20,
+                color: Colors.amber,
+                alignment: Alignment.center,
+                child: Icon(Icons.done),
+              ),
+              onDismissed: (direction) {
+                context.read<DiaryCubit>().removeData(diary);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Diary "${diary.number}" deleted')),
+                );
+              },
+              child: DiaryCard(
+                number: diary.number,
+                title: diary.title,
+                star: diary.star,
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -44,49 +105,7 @@ class _HomePageState extends State<HomePage> {
             fit: BoxFit.cover,
           ),
         ),
-        child: BlocBuilder<DiaryCubit, List<Diary>>(
-          builder: (context, diaries) {
-            if (diaries.isEmpty) {
-              return Center(
-                child: Text(
-                  'Tell us about your Day!',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-              );
-            }
-            return ListView.builder(
-              padding: EdgeInsets.only(bottom: 100), // Space for FAB
-              itemCount: diaries.length,
-              itemBuilder: (context, index) {
-                final diary = diaries[index];
-                return Dismissible(
-                  key: Key(diary.title),
-                  direction: DismissDirection.horizontal,
-                  background: Container(
-                    height: 20,
-                    color: Colors.amber,
-                    alignment: Alignment.center,
-                    child: Icon(Icons.done),
-                    // color: Colors.white.withOpacity(0.8),
-                  ),
-                  onDismissed: (direction) {
-                    context.read<DiaryCubit>().removeData(diary);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Diary "${diary.number}" deleted'),
-                      ),
-                    );
-                  },
-                  child: DiaryCard(
-                    number: diary.number,
-                    title: diary.title,
-                    star: diary.star,
-                  ),
-                );
-              },
-            );
-          },
-        ),
+        child: _getSelectedPage(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
