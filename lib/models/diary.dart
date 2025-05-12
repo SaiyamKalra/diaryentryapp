@@ -1,9 +1,9 @@
 class Diary {
-  final int number;
+  final String number;
   final String title;
   final String body;
   final DateTime date;
-  final double star;
+  final String star;
 
   Diary({
     required this.title,
@@ -19,6 +19,7 @@ class Diary {
       'body': body,
       'date': date.toIso8601String(),
       'star': star,
+      'number': number,
     };
   }
 

@@ -1,9 +1,9 @@
 import 'package:diaryentryapp/cubit/diary_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:diaryentryapp/cubit/diary_cubit.dart';
 import 'package:diaryentryapp/models/diary.dart';
 import './add_diary_page.dart';
+import 'package:diaryentryapp/utils/diary_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,15 +25,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.all(100.0),
-          child: Center(
+        title: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Text(
               'D I A R Y  E N T R Y  A P P',
               style: TextStyle(color: Colors.white, fontSize: 14),
             ),
           ),
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -42,71 +44,75 @@ class _HomePageState extends State<HomePage> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Stack(
-          children: [
-            BlocBuilder<DiaryCubit, List<Diary>>(
-              builder: (context, diaries) {
-                if (diaries.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'Tell us about your Day!',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  );
-                }
-                return ListView.builder(
-                  itemCount: diaries.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(diaries[index].title ?? ''),
-                      subtitle: Text(diaries[index].body ?? ''),
+        child: BlocBuilder<DiaryCubit, List<Diary>>(
+          builder: (context, diaries) {
+            if (diaries.isEmpty) {
+              return Center(
+                child: Text(
+                  'Tell us about your Day!',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
+              );
+            }
+            return ListView.builder(
+              padding: EdgeInsets.only(bottom: 100), // Space for FAB
+              itemCount: diaries.length,
+              itemBuilder: (context, index) {
+                final diary = diaries[index];
+                return Dismissible(
+                  key: Key(diary.title),
+                  direction: DismissDirection.horizontal,
+                  background: Container(
+                    height: 20,
+                    color: Colors.amber,
+                    alignment: Alignment.center,
+                    child: Icon(Icons.done),
+                    // color: Colors.white.withOpacity(0.8),
+                  ),
+                  onDismissed: (direction) {
+                    context.read<DiaryCubit>().removeData(diary);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Diary "${diary.number}" deleted'),
+                      ),
                     );
                   },
+                  child: DiaryCard(
+                    number: diary.number,
+                    title: diary.title,
+                    star: diary.star,
+                  ),
                 );
               },
-            ),
-            Positioned(
-              bottom: 150,
-              right: 30,
-              child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const AddDiaryPage(),
-                    ),
-                  );
-                },
-                child: Text('+', style: TextStyle(fontSize: 25)),
-              ),
-            ),
-            BottomNavigationBar(
-              onTap: _onItemTapped,
-              currentIndex: _selectedIndex,
-              type: BottomNavigationBarType.fixed,
-              backgroundColor: const Color.fromARGB(28, 41, 4, 206),
-              selectedItemColor: Colors.orange,
-              unselectedItemColor: Colors.white,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home, color: Colors.white),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.search, color: Colors.white),
-                  label: 'Search',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.mood, color: Colors.white),
-                  label: 'Happy Mood',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.mood_bad, color: Colors.white),
-                  label: 'Sad Mood',
-                ),
-              ],
-            ),
-          ],
+            );
+          },
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (context) => const AddDiaryPage()));
+        },
+        child: Icon(Icons.add, size: 30),
+        backgroundColor: Colors.orange,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: _onItemTapped,
+        currentIndex: _selectedIndex,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: const Color.fromARGB(28, 41, 4, 206),
+        selectedItemColor: Colors.orange,
+        unselectedItemColor: Colors.white,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+          BottomNavigationBarItem(icon: Icon(Icons.mood), label: 'Happy Mood'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mood_bad),
+            label: 'Sad Mood',
+          ),
+        ],
       ),
     );
   }
