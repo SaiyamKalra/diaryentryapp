@@ -15,6 +15,7 @@ class _AddDiaryPageState extends State<AddDiaryPage> {
   final TextEditingController _diaryBodyController = TextEditingController();
   final TextEditingController _diaryStarController = TextEditingController();
   final TextEditingController _diaryNumberController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,12 +101,15 @@ class _AddDiaryPageState extends State<AddDiaryPage> {
                     SnackBar(content: Text('Please Enter the Title')),
                   );
                 } else {
+                  final diaryCubit = BlocProvider.of<DiaryCubit>(context);
+                  final count = diaryCubit.state.length;
                   final newDiary = Diary(
                     title: titletext,
                     body: bodytext,
                     star: startext,
                     date: DateTime.now(),
                     number: numbertext,
+                    count: count,
                   );
                   BlocProvider.of<DiaryCubit>(context).addData(newDiary);
                   Navigator.pop(context);

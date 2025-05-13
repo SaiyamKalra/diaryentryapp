@@ -9,6 +9,8 @@ class DiaryCubit extends Cubit<List<Diary>> {
     _loadDiary();
   }
 
+  get nextCount => null;
+
   void addData(Diary diary) {
     if (diary.title.isEmpty) {
       emitError("Title is empty");
@@ -21,6 +23,7 @@ class DiaryCubit extends Cubit<List<Diary>> {
       return;
     }
     emit([...state, diary]);
+
     _saveDiary();
   }
 

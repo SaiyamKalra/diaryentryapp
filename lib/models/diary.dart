@@ -4,6 +4,7 @@ class Diary {
   final String body;
   final DateTime date;
   final String star;
+  final int count;
 
   Diary({
     required this.title,
@@ -11,6 +12,7 @@ class Diary {
     required this.date,
     required this.star,
     required this.number,
+    required this.count,
   });
 
   Map<String, dynamic> toJson() {
@@ -20,6 +22,7 @@ class Diary {
       'date': date.toIso8601String(),
       'star': star,
       'number': number,
+      'count': count,
     };
   }
 
@@ -30,6 +33,7 @@ class Diary {
       date: DateTime.parse(json['date']),
       star: json['star'],
       number: json['number'],
+      count: json['count'],
     );
   }
 }
