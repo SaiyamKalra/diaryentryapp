@@ -1,3 +1,4 @@
+import 'package:diaryentryapp/pages/detail_diary_page.dart';
 import 'package:flutter/material.dart';
 
 class DiaryCard extends StatelessWidget {
@@ -32,10 +33,10 @@ class DiaryCard extends StatelessWidget {
             ],
           ),
           borderRadius: BorderRadius.circular(16.0),
-          border: Border.all(color: Colors.white.withOpacity(0.2), width: 1.2),
+          border: Border.all(),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.15),
+              color: const Color.fromARGB(255, 223, 140, 15),
               blurRadius: 12,
               offset: Offset(0, 4),
             ),
@@ -60,27 +61,36 @@ class DiaryCard extends StatelessWidget {
               child: SizedBox(
                 height: 60,
                 width: double.infinity,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text(number, style: TextStyle(fontSize: 40)),
-                        SizedBox(width: 20),
-                        Column(
-                          children: [
-                            Text(title),
-                            SizedBox(width: 20),
-                            Row(
-                              children: [
-                                Icon(Icons.star, color: Colors.amber),
-                                Text(star),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const DetailDiaryPage(),
+                      ),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(number, style: TextStyle(fontSize: 40)),
+                          SizedBox(width: 20),
+                          Column(
+                            children: [
+                              Text(title),
+                              SizedBox(width: 20),
+                              Row(
+                                children: [
+                                  Icon(Icons.star, color: Colors.amber),
+                                  Text(star),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
