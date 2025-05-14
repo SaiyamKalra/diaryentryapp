@@ -60,9 +60,9 @@ class _HomePageState extends State<HomePage> {
               direction: DismissDirection.horizontal,
               background: Container(
                 height: 20,
-                color: Colors.amber,
+                color: Colors.red,
                 alignment: Alignment.center,
-                child: Icon(Icons.done),
+                child: Icon(Icons.delete),
               ),
               onDismissed: (direction) {
                 context.read<DiaryCubit>().removeData(diary);

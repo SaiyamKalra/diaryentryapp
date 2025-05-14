@@ -23,23 +23,37 @@ class DiaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
-      child: ExpansionTile(
-        leading: Column(
-          children: [Text(number, style: TextStyle(fontSize: 25))],
-        ),
-        title: Text(title.toUpperCase()),
-        subtitle: Column(
-          children: [
-            Row(
-              children: [
-                Icon(Icons.star, color: Colors.amber),
-                SizedBox(width: 10),
-                Text(star),
-              ],
-            ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16.0),
+          boxShadow: [
+            BoxShadow(color: const Color.fromARGB(255, 11, 140, 232)),
           ],
+          gradient: LinearGradient(
+            colors: [
+              const Color.fromARGB(255, 231, 62, 16).withAlpha(100),
+              const Color.fromARGB(255, 247, 196, 29).withAlpha(100),
+            ],
+          ),
         ),
-        children: <Widget>[Text(body)],
+        child: ExpansionTile(
+          leading: Column(
+            children: [Text(number, style: TextStyle(fontSize: 25))],
+          ),
+          title: Text(title.toUpperCase()),
+          subtitle: Column(
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.star, color: Colors.amber),
+                  SizedBox(width: 10),
+                  Text(star),
+                ],
+              ),
+            ],
+          ),
+          children: <Widget>[Text(body, style: TextStyle(fontSize: 18))],
+        ),
       ),
       // child: Container(
       //   decoration: BoxDecoration(
