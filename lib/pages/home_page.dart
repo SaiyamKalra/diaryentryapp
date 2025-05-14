@@ -74,6 +74,7 @@ class _HomePageState extends State<HomePage> {
                 number: diary.number,
                 title: diary.title,
                 star: diary.star,
+                body: diary.body,
               ),
             );
           },

@@ -40,6 +40,7 @@ class SadMoodPage extends StatelessWidget {
                   title: diary.title,
                   number: diary.number,
                   star: diary.star,
+                  body: diary.body,
                 );
               },
             );

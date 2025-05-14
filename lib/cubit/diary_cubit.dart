@@ -29,6 +29,7 @@ class DiaryCubit extends Cubit<List<Diary>> {
 
   void removeData(Diary diary) {
     emit(state.where((e) => e != diary).toList());
+    _saveDiary();
   }
 
   void emitError(String message) {
