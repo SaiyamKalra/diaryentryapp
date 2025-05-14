@@ -43,11 +43,23 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<DiaryCubit, List<Diary>>(
       builder: (context, diaries) {
         if (diaries.isEmpty) {
-          return Center(
-            child: Text(
-              'Tell us about your Day!',
-              style: TextStyle(fontSize: 20, color: Colors.white),
-            ),
+          return Stack(
+            children: [
+              Positioned(
+                top: 80,
+                child: Image.asset(
+                  "assets/images/decoration_if_statement.png",
+                  height: 400,
+                  width: 400,
+                ),
+              ),
+              Center(
+                child: Text(
+                  'Tell us about your Day!',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
+              ),
+            ],
           );
         }
         return ListView.builder(
