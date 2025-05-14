@@ -99,14 +99,25 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/background.png"),
+      body: Stack(
+        children: [
+          Image.asset(
+            "assets/images/background.png",
+            width: double.infinity,
+            height: double.infinity,
             fit: BoxFit.cover,
           ),
-        ),
-        child: _getSelectedPage(),
+          Positioned(
+            top: 535,
+            right: 08,
+            child: Image.asset(
+              "assets/images/home_page_decoration.png",
+              width: 75,
+              height: 150,
+            ),
+          ),
+          Container(child: _getSelectedPage()),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

@@ -24,3 +24,5 @@ flutter:
   assets:
     - assets/images/background.png
     - assets/images/search.png
+    - assets/images/home_page_decoration.png
+    - assets/images/decoration_if_statement.png

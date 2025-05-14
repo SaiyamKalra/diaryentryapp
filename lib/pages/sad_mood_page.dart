@@ -25,11 +25,23 @@ class SadMoodPage extends StatelessWidget {
                   return rating <= 3.5;
                 }).toList();
             if (filteredDiaries.isEmpty) {
-              return Center(
-                child: Text(
-                  'Nothing Bad Shared With Us!!',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
+              return Stack(
+                children: [
+                  Positioned(
+                    top: 80,
+                    child: Image.asset(
+                      "assets/images/decoration_if_statement.png",
+                      height: 400,
+                      width: 400,
+                    ),
+                  ),
+                  Center(
+                    child: Text(
+                      'Nothing Bad Shared With Us!!',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  ),
+                ],
               );
             }
             return ListView.builder(
