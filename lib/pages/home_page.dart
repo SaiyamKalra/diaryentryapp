@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
           );
         }
         return ListView.builder(
-          padding: EdgeInsets.only(bottom: 100), // Space for FAB
+          padding: EdgeInsets.only(bottom: 100),
           itemCount: diaries.length,
           itemBuilder: (context, index) {
             final diary = diaries[index];
